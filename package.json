@@ -1,0 +1,56 @@
+{
+  "name": "nodejs_express_prisma",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "build": "npx prisma generate && tsc",
+    "start": "tsc && node dist/app.js",
+    "dev": "cross-env NODE_ENV=development nodemon --watch src --exec ts-node src/app.ts",
+    "production": "cross-env NODE_ENV=production nodemon --watch src --exec ts-node src/app.ts",
+    "db:migrate": "prisma migrate dev --name ",
+    "db:update": "prisma migrate dev",
+    "prisma:generate": "prisma generate"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "prisma",
+    "typescript",
+    "PostgreSQL"
+  ],
+  "author": "SOAIB",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.893.0",
+    "@prisma/client": "^6.16.2",
+    "@supabase/supabase-js": "^2.57.4",
+    "bcrypt": "^5.1.1",
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.2",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "inversify": "^6.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.2",
+    "reflect-metadata": "^0.2.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "yup": "^1.6.1"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.1",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/multer": "^2.0.0",
+    "@types/node": "^22.15.2",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.8",
+    "nodemon": "^3.1.10",
+    "prisma": "^6.16.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}

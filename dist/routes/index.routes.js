@@ -1,0 +1,22 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const account_routes_1 = __importDefault(require("./account.routes"));
+const health_routes_1 = __importDefault(require("./health.routes"));
+const portfolio_routes_1 = __importDefault(require("./portfolio.routes"));
+const project_routes_1 = __importDefault(require("./project.routes"));
+const skill_routes_1 = __importDefault(require("./skill.routes"));
+const user_routes_1 = __importDefault(require("./user.routes"));
+const work_experience_routes_1 = __importDefault(require("./work-experience.routes"));
+const routes = express_1.default.Router();
+routes.use('/auth', account_routes_1.default);
+routes.use('/users', user_routes_1.default);
+routes.use('/health', health_routes_1.default);
+routes.use('/work-experience', work_experience_routes_1.default);
+routes.use('/skills', skill_routes_1.default);
+routes.use('/projects', project_routes_1.default);
+routes.use('/generate-portfolio-ai', portfolio_routes_1.default);
+exports.default = routes;

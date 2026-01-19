@@ -1,0 +1,93 @@
+model Project {
+  id           Int       @id @default(autoincrement())
+  userId       String    @map("user_id") @db.VarChar(50)
+  title        String    @db.VarChar(200)
+  description  String?   @db.VarChar(2000)
+  url          String?   @db.VarChar(500)
+  technologies String?   @db.VarChar(500) // comma-separated list
+  startDate    DateTime  @map("start_date")
+  endDate      DateTime? @map("end_date")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  user         User      @relation(fields: [userId], references: [id])
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../generated"
+  previewFeatures = ["prismaSchemaFolder"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Skill {
+  id          Int      @id @default(autoincrement())
+  userId      String   @map("user_id") @db.VarChar(50)
+  name        String   @db.VarChar(100)
+  level       String?  @db.VarChar(50) // e.g., Beginner, Intermediate, Expert
+  description String?  @db.VarChar(500)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id               String       @id @default(cuid())
+  email            String       @unique @db.VarChar(300)
+  passwordHash     String?      @map("password_hash")
+  firstName        String?      @map("first_name") @db.VarChar(200)
+  lastName         String?      @map("last_name") @db.VarChar(200)
+  phoneNumber      String?      @unique @map("phone_number") @db.VarChar(20)
+  phoneCountryCode String?      @map("phone_country_code") @db.VarChar(10)
+  dateOfBirth      DateTime?    @map("date_of_birth")
+  profileImageUrl  String?      @map("profile_image_url")
+  provider         AuthProvider @default(CREDENTIALS)
+  providerId       String?      @map("provider_id") @db.VarChar(100)
+  isEmailVerified  Boolean      @default(false) @map("is_email_verified")
+  isPhoneVerified  Boolean      @default(false) @map("is_phone_verified")
+  twoFactorEnabled Boolean      @default(false) @map("two_factor_enabled")
+  twoFactorSecret  String?      @map("two_factor_secret")
+  role             UserRole     @default(USER)
+  isActive         Boolean      @default(true) @map("is_active")
+  createdAt        DateTime     @default(now()) @map("created_at")
+  updatedAt        DateTime?    @updatedAt @map("updated_at")
+  bannerHeading    String?      @map("banner_heading") @db.VarChar(200)
+  bannerDesc       String?      @map("banner_desc") @db.VarChar(200)
+  cv               String?      @map("cv") @db.VarChar(200)
+
+  workExperiences WorkExperience[]
+  skills          Skill[]
+  projects        Project[]
+
+  @@map("users")
+}
+
+enum UserRole {
+  ADMIN
+  STAFF
+  USER
+}
+
+enum AuthProvider {
+  CREDENTIALS
+  GOOGLE
+  FACEBOOK
+  APPLE
+}
+
+model WorkExperience {
+  id          Int       @id @default(autoincrement())
+  userId      String    @map("user_id") @db.VarChar(50)
+  companyName String    @map("company_name") @db.VarChar(200)
+  position    String    @db.VarChar(200)
+  startDate   DateTime  @map("start_date")
+  endDate     DateTime? @map("end_date")
+  description String?   @db.VarChar(1000)
+  location    String?   @db.VarChar(200)
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  user        User      @relation(fields: [userId], references: [id])
+}
